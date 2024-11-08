@@ -1,19 +1,31 @@
 const fastify = require('fastify')({ logger: true });
+const fetch = require('node-fetch');
 
-// Ruta para la raíz
-fastify.get('/', async (request, reply) => {
-  return { from_fastify: "Hello from the root route!" };
-});
-
-// Ruta para /fastify
-fastify.get('/fastify', async (request, reply) => {
-  return { from_fastify: "Hello from Fastify!" };
+// Ruta para consumir y retornar datos de la API externa
+fastify.get('/categorias', async (request, reply) => {
+  try {
+    const response = await fetch('https://riccospyp.somee.com/api/categoria/active');
+    
+    if (!response.ok) {
+      return reply.status(response.status).send({ error: "Error al obtener los datos de la API externa" });
+    }
+    
+    const data = await response.json();
+    return { 
+      mensaje: "Categorías obtenidas correctamente",
+      estado: "éxito",
+      datos: data 
+    };
+  } catch (error) {
+    fastify.log.error(error);
+    return reply.status(500).send({ error: "Ocurrió un error al intentar obtener los datos" });
+  }
 });
 
 const start = async () => {
   try {
     await fastify.listen({ port: 4000, host: '0.0.0.0' });
-    console.log('Fastify server running on port 4000');
+    console.log('Servidor Fastify ejecutándose en el puerto 4000');
   } catch (err) {
     fastify.log.error(err);
     process.exit(1);
