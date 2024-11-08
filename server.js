@@ -1,5 +1,11 @@
 const fastify = require('fastify')({ logger: true });
 
+// Ruta para la raíz
+fastify.get('/', async (request, reply) => {
+  return { from_fastify: "Hello from the root route!" };
+});
+
+// Ruta para /fastify
 fastify.get('/fastify', async (request, reply) => {
   return { from_fastify: "Hello from Fastify!" };
 });
