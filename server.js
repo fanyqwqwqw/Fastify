@@ -24,8 +24,9 @@ fastify.get('/categorias', async (request, reply) => {
 
 const start = async () => {
   try {
-    await fastify.listen({ port: 4000, host: '0.0.0.0' });
-    console.log('Servidor Fastify ejecutándose en el puerto 4000');
+    const port = process.env.PORT || 4000; // Render usa la variable de entorno PORT
+    await fastify.listen({ port, host: '0.0.0.0' });
+    console.log(`Servidor Fastify ejecutándose en el puerto ${port}`);
   } catch (err) {
     fastify.log.error(err);
     process.exit(1);
