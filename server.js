@@ -8,7 +8,7 @@ fastify.get('/categorias', async (request, reply) => {
   try {
     const response = await fetch('https://riccospyp.somee.com/api/categoria/active');
     const data = await response.json();
-    reply.send({ mensaje: "Categorías obtenidas correctamente", estado: "éxito", datos: data });
+    reply.send({ servidor:"Render" ,mensaje: "Categorías obtenidas correctamente", estado: "éxito", datos: data });
   } catch (error) {
     fastify.log.error(error);
     reply.status(500).send({ error: "Ocurrió un error al intentar obtener los datos" });
